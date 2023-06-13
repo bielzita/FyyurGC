@@ -156,7 +156,7 @@ def show_venue(venue_id):
     "state": "CA",
     "phone": "123-123-1234",
     "website": "https://www.themusicalhop.com",
-    "facebook_link": "https://www.facebook.com/TheMusicalHop",
+    "facebook": "https://www.facebook.com/TheMusicalHop",
     "seeking_talent": True,
     "seeking_description": "We are on the lookout for a local artist to play every two weeks. Please call us.",
     "image": "https://images.unsplash.com/photo-1543900694-133f37abaaa5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
@@ -179,7 +179,7 @@ def show_venue(venue_id):
     "state": "NY",
     "phone": "914-003-1132",
     "website": "https://www.theduelingpianos.com",
-    "facebook_link": "https://www.facebook.com/theduelingpianos",
+    "facebook": "https://www.facebook.com/theduelingpianos",
     "seeking_talent": False,
     "image": "https://images.unsplash.com/photo-1497032205916-ac775f0649ae?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
     "past_shows": [],
@@ -196,7 +196,7 @@ def show_venue(venue_id):
     "state": "CA",
     "phone": "415-000-1234",
     "website": "https://www.parksquarelivemusicandcoffee.com",
-    "facebook_link": "https://www.facebook.com/ParkSquareLiveMusicAndCoffee",
+    "facebook": "https://www.facebook.com/ParkSquareLiveMusicAndCoffee",
     "seeking_talent": False,
     "image": "https://images.unsplash.com/photo-1485686531765-ba63b07845a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=747&q=80",
     "past_shows": [{
@@ -276,20 +276,10 @@ def create_venue_submission():
             db.session.close()
 
         return redirect(url_for('index'))
-
+  else:
+    for field, err in form.errors.items():
+        flash(f"Error in {field}: {', '.join(err)}")
   return render_template('forms/new_venue.html', form=form)
-
-
-
-  # TODO: insert form data as a new Venue record in the db, instead
-  # TODO: modify data to be the data object returned from db insertion
-
-  # on successful db insert, flash success
-  flash('Venue ' + request.form['name'] + ' was successfully listed!')
-  # TODO: on unsuccessful db insert, flash an error instead.
-  # e.g., flash('An error occurred. Venue ' + data.name + ' could not be listed.')
-  # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
-  return render_template('pages/home.html')
 
 @app.route('/venues/<venue_id>', methods=['DELETE'])
 def delete_venue(venue_id):
@@ -344,7 +334,7 @@ def show_artist(artist_id):
     "state": "CA",
     "phone": "326-123-5000",
     "website": "https://www.gunsnpetalsband.com",
-    "facebook_link": "https://www.facebook.com/GunsNPetals",
+    "facebook": "https://www.facebook.com/GunsNPetals",
     "seeking_venue": True,
     "seeking_description": "Looking for shows to perform at in the San Francisco Bay Area!",
     "image": "https://images.unsplash.com/photo-1549213783-8284d0336c4f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80",
@@ -365,7 +355,7 @@ def show_artist(artist_id):
     "city": "New York",
     "state": "NY",
     "phone": "300-400-5000",
-    "facebook_link": "https://www.facebook.com/mattquevedo923251523",
+    "facebook": "https://www.facebook.com/mattquevedo923251523",
     "seeking_venue": False,
     "image": "https://images.unsplash.com/photo-1495223153807-b916f75de8c5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80",
     "past_shows": [{
@@ -423,7 +413,7 @@ def edit_artist(artist_id):
     "state": "CA",
     "phone": "326-123-5000",
     "website": "https://www.gunsnpetalsband.com",
-    "facebook_link": "https://www.facebook.com/GunsNPetals",
+    "facebook": "https://www.facebook.com/GunsNPetals",
     "seeking_venue": True,
     "seeking_description": "Looking for shows to perform at in the San Francisco Bay Area!",
     "image": "https://images.unsplash.com/photo-1549213783-8284d0336c4f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80"
@@ -450,7 +440,7 @@ def edit_venue(venue_id):
     "state": "CA",
     "phone": "123-123-1234",
     "website": "https://www.themusicalhop.com",
-    "facebook_link": "https://www.facebook.com/TheMusicalHop",
+    "facebook": "https://www.facebook.com/TheMusicalHop",
     "seeking_talent": True,
     "seeking_description": "We are on the lookout for a local artist to play every two weeks. Please call us.",
     "image": "https://images.unsplash.com/photo-1543900694-133f37abaaa5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60"

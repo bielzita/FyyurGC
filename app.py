@@ -72,7 +72,7 @@ class Artist(db.Model):
     genres = db.Column(db.String(120))
     facebook = db.Column(db.String(120))
     site = db.Column(db.String(500))
-    seeking_talent = db.Column(db.Boolean)
+    seeking_venue = db.Column(db.Boolean)
     seeking_description = db.Column(db.String(120))
 
 #----------------------------------------------------------------------------#
@@ -464,16 +464,48 @@ def create_artist_form():
 
 @app.route('/artists/create', methods=['POST'])
 def create_artist_submission():
-  # called upon submitting the new artist listing form
-  # TODO: insert form data as a new Venue record in the db, instead
-  # TODO: modify data to be the data object returned from db insertion
+  form = ArtistForm()
+  print(form.data)
 
-  # on successful db insert, flash success
-  flash('Artist ' + request.form['name'] + ' was successfully listed!')
-  # TODO: on unsuccessful db insert, flash an error instead.
-  # e.g., flash('An error occurred. Artist ' + data.name + ' could not be listed.')
-  return render_template('pages/home.html')
+  print("Is form submitted?: ", form.is_submitted())
+  print("Is form valid?: ", form.validate())
+  print("Form errors: ", form.errors)
 
+  if form.validate_on_submit():
+        artist = None
+        try:
+            artist = Artist(
+                name=form.name.data,
+                city=form.city.data,
+                state=form.state.data,
+                phone=form.phone.data,
+                genres=form.genres.data,
+                facebook=form.facebook.data,
+                image=form.image.data,
+                site=form.site.data,
+                seeking_venue = form.seeking_venue.data if form.seeking_venue.data else False,
+                seeking_description=form.seeking_description.data
+            )
+
+            db.session.add(artist)
+            print("Committing to database...")
+            db.session.commit()
+            flash('Artist ' + artist.name + ' was successfully listed!')
+        except Exception as e:
+            print("Error: ", str(e))
+            db.session.rollback()
+            if artist:
+                flash('An error occurred. Artist ' + artist.name + ' could not be listed. Error: ' + str(e))
+            else:
+                flash('An error occurred. Artist could not be listed. Error: ' + str(e))
+        finally:
+            db.session.close()
+
+        return redirect(url_for('index'))
+  else:
+    for field, err in form.errors.items():
+        flash(f"Error in {field}: {', '.join(err)}")
+  return render_template('forms/new_artist.html', form=form)
 
 #  Shows
 #  ----------------------------------------------------------------

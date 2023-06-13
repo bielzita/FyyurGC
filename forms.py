@@ -5,10 +5,10 @@ from wtforms.validators import DataRequired, AnyOf, URL, Length, Regexp
 
 class ShowForm(FlaskForm):
     artist_id = StringField(
-        'artist_id'
+        'artist_id',  validators=[DataRequired()]
     )
     venue_id = StringField(
-        'venue_id'
+        'venue_id',  validators=[DataRequired()]
     )
     start_time = DateTimeField(
         'start_time',
@@ -129,10 +129,10 @@ class VenueForm(FlaskForm):
 
 class ArtistForm(FlaskForm):
     name = StringField(
-        'name', validators=[DataRequired()]
+        'name', validators=[DataRequired(), Length(max=100)]
     )
     city = StringField(
-        'city', validators=[DataRequired()]
+        'city', validators=[DataRequired(), Length(max=35)]
     )
     state = SelectField(
         'state', validators=[DataRequired()],
@@ -191,8 +191,7 @@ class ArtistForm(FlaskForm):
         ]
     )
     phone = StringField(
-        # TODO implement validation logic for phone 
-        'phone'
+        'phone', validators=[Regexp('^\d{3}-\d{3}-\d{4}$', message="Phone number must be in format: xxx-xxx-xxxx")]
     )
     image = StringField(
         'image'
@@ -227,7 +226,7 @@ class ArtistForm(FlaskForm):
      )
 
     site = StringField(
-        'site'
+        'site', validators=[URL()]
      )
 
     seeking_venue = BooleanField( 'seeking_venue' )

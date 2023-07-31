@@ -1,8 +1,9 @@
-import datetime
+from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-from . import db
+db = SQLAlchemy()
+migrate = Migrate()
 
 #----------------------------------------------------------------------------#
 # Models.
